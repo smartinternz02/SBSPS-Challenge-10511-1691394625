@@ -1,37 +1,102 @@
-
 <!DOCTYPE html>
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Demo Deploy</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
-  
+  <title>Cognos Crew</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='stylesheets/style.css')}}">	
 </head>
 
-<body style="background: #000;">
+<body>
  <div class="login">
 	<h1>Crop ForeCasting</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="Nitrogen" placeholder="Nitrogen" required="required" />
-      <input type="text" name="Phosphorous" placeholder="Phosphorous" required="required" />
-      <input type="text" name="Potassium" placeholder="Potassium" required="required" />
-      <input type="text" name="Temperature" placeholder="Temperature" required="required" />
-      <input type="text" name="Humidity" placeholder="Humidity" required="required" />
-      <input type="text" name="PH" placeholder="PH" required="required" />
-      <input type="text" name="Rainfall" placeholder="Rainfall" required="required" />
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict Suitable Crop</button>
+	 <div class="form-container">
+    <form action="{{ url_for('home')}}" method="post">
+	<div class="npk">
+		<div><label>NPK Values</label></div>
+		<div>
+		  <input type="number" name="Nitrogen" placeholder="Nitrogen" required="required"  />
+		  <input type="number" name="Phosphorous" placeholder="Phosphorous" required="required"  />
+		  <input type="number" name="Potassium" placeholder="Potassium" required="required"  />
+		</div>
+	</div>
+	<div>
+		<div><label>PH Value : <span id="demo"></span></label></div>
+		<div>
+      	<div class="slidecontainer">
+		  <input type="range" min="1" max="14" value="7" step="0.01" class="slider" id="myRange" name="PH">
+		</div>
+		</div>	
+	</div>
+	<div>
+		<div><label>Location</label></div>
+		<div>
+      	<input type="text" name="loc" placeholder="Location" required="required" />
+		</div>
+	</div>
+	<div>
+		<div><label>Expecting Crop</label></div>
+		<div><input list="crops" name="expect" placeholder="Expecting Crop" required>
+		  <datalist id="crops">
+			<option value="Apple"></option>
+			<option value="Banana"></option>
+			<option value="Blackgram"></option>
+			<option value="Chickpea"></option>
+			<option value="Coconut"></option>
+			<option value="Coffee"></option>
+			<option value="Cotton"></option>
+			<option value="Grapes"></option>
+			<option value="Jute"></option>
+			<option value="Kidneybeans"></option>
+			<option value="Lentil"></option>
+			<option value="Maize"></option>
+			<option value="Mango"></option>
+			<option value="Mothbeans"></option>
+			<option value="Mungbean"></option>
+			<option value="Muskmelon"></option>
+			<option value="Orange"></option>
+			<option value="Papaya"></option>
+			<option value="Pigeonpeas"></option>
+			<option value="Pomegranate"></option>
+			<option value="Rice"></option>
+			<option value="Watermelon"></option>
+  		</datalist>
+	   </div>
+	</div>
+	<div>
+        <input type="submit" class="btn btn-primary btn-block btn-large" value="Predict Suitable Crop"/>
+	</div>
     </form>
+	</div>
+	
+	 <script>
+		var slider = document.getElementById("myRange");
+		var output = document.getElementById("demo");
+		output.innerHTML = slider.value;
 
+		slider.oninput = function() {
+		output.innerHTML = this.value;
+		}
+	</script>	
+	 
    <br>
    <br>
-   {{ prediction_text }}
-
+	 {% if crop_rec %}
+	<div class="contianer">
+   		<h4>We are recommending the following crops</h4>
+		<ul>
+		{% for crop in crop_rec%}
+			<li>{{ crop }}</li>
+		{% endfor %}
+		</ul>
+		<p>The crop - {{ expecting }} has a following probability: {{ prob }}</p>
+	</div>
+	 {% endif %}
+	 {% if info %}
+	<div class="form-container">
+   		<h3>{{ info }}</h3>
+	</div>
+	 {% endif %}
  </div>
 </body>
 </html>
