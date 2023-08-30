@@ -8,7 +8,7 @@
 
 <body>
  <div class="login">
-	<h1>Crop ForeCasting</h1>
+	<h1>Crop Forecasting</h1>
 
 	 <div class="form-container">
     <form action="{{ url_for('home')}}" method="post">
@@ -89,7 +89,7 @@
 			<li>{{ crop }}</li>
 		{% endfor %}
 		</ul>
-		<p>The crop - {{ expecting }} has a following probability: {{ prob }}</p>
+		<p>The crop - {{ expecting }} has a following success rate : {{ "%.2f"|format(prob) }}%</p>
 	</div>
 	 {% endif %}
 	 {% if info %}
