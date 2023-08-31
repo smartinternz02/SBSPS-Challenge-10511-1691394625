@@ -1,3 +1,35 @@
+body {
+  margin: 0;
+}
+
+.navbar > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 10%;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+ li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
 .slidecontainer {
   width: 100%;
 }
@@ -81,7 +113,11 @@ input[type=submit]:hover {
   margin: 0 25%;
   padding: 20px;
 }
-label, h1, h3, h4, p{
+label, h1, h2, h3, h4{
 	font-weight: bold;
+	
+	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans";
+}
+p{
 	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans";
 }
